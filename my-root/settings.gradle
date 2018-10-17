@@ -1,0 +1,4 @@
+rootProject.name = 'my-root'
+include 'my-lib'
+include 'my-web'
+

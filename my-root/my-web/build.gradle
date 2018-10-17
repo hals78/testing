@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'war'
+    id 'idea'
+}
+
+group 'com.hals'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile project(':my-lib')
+}
+
+// Export these libraries so the project can compile in IDEA. For some reason
+// Gradle's IDEA plugin doesn't automatically export them.
+idea.module.iml.whenMerged { module ->
+    module.dependencies.each { dep ->
+        ['my-lib'].each { lib ->
+            if (dependencyFor(dep, lib)) dep.exported = true
+        }
+    }
+}
